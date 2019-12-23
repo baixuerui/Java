@@ -1,0 +1,102 @@
+Java面向对象编程
+Java图形界面  
+Java数据库编程  
+Java文件io流  
+Java网络编程 
+Java多线程
+
+
+***********正进行**************
+Servlet:	av44716830_p41	https://www.bilibili.com/video/av44716830
+Servlet经典实战	av14548473
+
+*******************************
+
+***********已完成**************
+计算机操作系统	av30708793	https://www.bilibili.com/video/av30708793	
+配套上机实验
+
+计算机网络	av9876107	https://www.bilibili.com/video/av9876107
+
+Java零基础	av76235341	https://www.bilibili.com/video/av76235341
+
+MySQL		av57575364	https://www.bilibili.com/video/av57575364
+30道练习题
+
+JDBC		av59263860  	https://www.bilibili.com/video/av59263860/     	
+练习增删改查 工具类 事务手动提交  悲观锁乐观锁
+
+Java web开发基础：av14548356	https://www.bilibili.com/video/av14548356
+讲的很差，没有侧重点，不建议看
+*******************************
+
+https://www.bilibili.com/video/av11477533
+需要更多学习资料请加群：635907104 验证信息【b站】 同时解决同学们在学习中遇到的问题。老杜最新数据库传送门：av57575364
+
+Java全套精品教程—【按照Java学习路线图排列】
+
+Java SE零基础
+Java零基础159集：av11361088
+Java SE进阶241集：av11477533
+
+数据库
+My SQL：av57575364
+JDBC：av59263860
+
+Web前端
+HTML：av62468669
+CSS：av62315621
+JavaScript：av62653534
+jQuery：av14538053
+Ajax：av16779653
+
+Java web
+
+
+《JavaWebJSP和Servlet）》：av37398251	https://www.bilibili.com/video/av29086718
+《JavaWeb进阶》：av37398729
+
+Eclipse开发必备快捷键：av14548169
+Tomcat9的配置与使用：av14548279
+
+Java web开发基础：av14548356
+Servlet：av14548473
+JSP：av14753783
+Session：av14745151
+Cookie：av14548664
+监听器：av14745254
+过滤器：av14745681
+文件上传与下载：av14746080
+Servlet3.0新特性：av14746175
+Java web项目-EGOV项目：av58069468
+
+开发必备框架
+
+SSH框架
+SSH之JDK动态代理：av14746486
+SSH之CGLIB代理：av14756990
+SSH之log4j：av14746638
+SSH之Struts2：av14754017
+SSH之Spring4：av15619432
+SSH之Hibernate：av47556370
+
+SSM框架
+SSM之Adapter设计模式：av15619215
+SSM之SpringMVC：av15619362
+SSM之Spring4：av47973173
+SSM之My Batis：av15619610
+SSM框架整合：av15619862
+
+Java开发必备前沿技术
+Springboot：av61409864
+Spring cloud：av61409284
+Linux：av16779777
+Dubbo：av16942397
+Maven：av16842750
+SVN：av16011672
+Redis：av16841549
+Nginx：av48064496
+
+  	 	
+
+

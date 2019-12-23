@@ -1,0 +1,392 @@
+Servlet
+1. API
+	应用程序接口（不是Interface） 
+	API 包括：源码、字节码、帮助文档
+	javaSE的位置：
+	JAVA_HOME\src.zip		源码
+	jRE_HOME\lib\rt.jar		字节码
+	帮助文档（未知）
+	
+	javaEE的源码、字节码、帮助文档在哪？
+	源码
+	字节码
+	帮助文档
+
+2. BS CS
+	BS Brower/Server	适合企业内使用 办公系统 不要求界面 速度	更加注重数据维护和管理
+	优点：
+			不需要安装特定的客户端软件，只需浏览器
+			升级只需要升级服务器端 升级方便
+	缺点：	所有数据全部集成在服务器，数据丢失严重，相对不安全
+			速度慢，用户体验差
+			界面粗糙
+	CS Client/Server	娱乐软件
+	优点：	速度快，大部分数据都在客户端软件，服务器传送数据量少
+			数据大部分在客户端，相对安全
+			
+	缺点：	需要安装特定的客户端软件
+			升级每个客户端都得升级，才能访问服务器
+
+3. BS架构
+			  http			servlet				  jdbc
+		浏览器———> Web服务器————>服务端小java程序————>数据库
+		Browser		webServer							DBServer
+		servlet: Serv 服务器端 let小程序
+		javaWeb程序员的工作： 写服务端java小程序（实现servlet接口的类） 编写.xml文件
+4. Tomcat
+	又叫
+			Websever
+			web服务器
+			web container
+			web 容器
+	web容器面向Servlet接口调用
+5. WebApp的开发
+D:\MySQL\mysql-connector-java-5.1.46.jar
+E:\tomcat7\lib\servlet-api.jar
+
+6. servlet对象的生命周期
+	生命和周期：一个java对象从创建到销毁经历的所有过程
+	servlet对象的生命周期，包括servlet对象相关方法的调用，javaweb程序员是无权干涉
+	从对象的创建，方法的调用，以及对象的销毁整个过程是由web容器管理
+	
+	默认情况下，Servlet对象在web服务器启动阶段不会实例化
+	单实例  构造方法 Init destory只执行一次   service多次执行
+	
+	描述servlet对象生命周期
+	1) 在浏览器地址输入URL
+	2) web容器截取请求路径
+	3）web容器在上下文中找请求路径对应的servlet对象
+	4）若没有找到对应的servlet对象
+		4.1）通过web.xml文件中相关的配置信息，得到请求路径对应的servlet完整类名
+		4.2）通过反射机制，调用servlet类的无参构造方法来完成servlet对象的实例化
+		4.3）web容器调用servlet对象的Init方法完成初始化操作
+		4.4）web容器调用servlet对象的service方法提供操作
+	5）若找到相应的servlet对象
+		5.1）web容器直接调用servlet对象的service方法提供服务
+	6）web容器关闭的时候/webapp重新部署/该servlet对象没有用户再次访问的时候
+	   web容器会将该servlet对象销毁，在销毁之前，web容器会调用servlet对象的destory方法，完成销毁之前的准备。
+	   
+	   servlet对象的构造方法（不是私有化，不算严格的单例） Init destory方法只执行一次
+	   只要用户请求一次，service方法则执行一次
+	   单实例多线程的方法下运行
+
+7. web在启动阶段实例化servlet对象
+	需要在web.xml文件中进行相关的配置
+	<load-on-startup>1<load-on-startup>
+	其中1代表优先级，越小优先级越高
+	
+8. 大多数web容器将实例化的servlet对象以及相应的url-pattern对象存储到Map集合中
+	在Web容器中有这样一个集合
+	Map<String,Servlet>集合
+	key				value
+	--------------------------
+	/login   	LoginServlet对象引用
+	/detlte	 	DetlteServlet对象引用
+	/save		SaveServlet对象引用
+	
+	服务器中在启动的时候回解析web.xml文件，将其中的url-pattern和相应的Servlet完整类名存到Map集合中
+	Map<String,Servlet>集合
+	key				value
+	--------------------------
+	/login   		com.bjpowernode.javaweb.servlet.LoginServlet
+
+9. ServletConfig接口
+	javaweb程序员一直是面向ServletConfig接口去调用，不关心具体类的实现
+	Tomcat是一个实现Servlet和Jsp规范的容器
+	算是一个servlet对象的配置信息，一个serrvlet对象对应一个ServletConfig对象
+
+10. 在init方法中完成， 局部变量config赋给实例变量config
+    并通过getServletConfig方法，返回ServletConfig对象，供子类调用
+	.xml中的配置信息：
+	<init-param>
+	<param-name>encoding</param-name>
+	<param-value>UTF-8</param-value>
+	</init-param>
+	String getInitParameter(String name) 
+	根据初始化参数名，返回对应的初始化参数值
+
+	Enumeration getInitParameterNames() 
+	返回一个Enumeration对象，其中包含所有的初始化参数名
+
+	ServletContext getServletContext() 
+	返回一个代表当前Web应用的，ServletContext对象
+
+	String getServletName() 
+	返回Servlet的名字，即web.xml中元素的值
+
+	
+11. ServletContext
+	所有的Servlet对象共享一个ServletContext对象
+	ServletContext翻译为Servlet上下文，一个webapp只有一个ServletContext对象
+	在服务器启动阶段创建，服务器关闭被销毁
+	对应的是web.xml文件，是web.xml的代表，是Servlet对象周围环境的代表
+	用于不同servlet对象的资源共享，
+	多线程共享对象，不建议在其中修改，可能会存在线程安全
+	
+12. ServletContext常用方法
+	web.xml配置上下文的信息会将会被封装到ServletConfig对象中
+	
+	-void setAttribute(String name, Object object)
+	-Object getAttribute(String name)
+	-void removeAttribute(String name)
+	
+	-String getInitParameter(String name)
+	-Enumeration getInitParameterNames()
+	
+	-String getRealPath(String path) String getRealPath(/index.html)
+	用于获取绝对路径
+	
+13. 设置欢迎界面 作为webapp的访问
+	web.xml配置：
+		<welcome-file-list>
+		<welcome-file>html/login.html<welcome-file>
+		</welcome-file-list>
+	可设置多个，越靠上优先级越高
+
+14. webapp的欢迎界面不一定必须是html,可以是任何web资源，如servlet对象
+	没有设置欢迎界面的情况下，tomcat默认设置为index.html hml jsp 为欢迎界面
+	欢迎界面有全局配置和局部配置
+	全局配置：CATALINA_HOME/conf/web.xml
+	局部配置：CATALINA_HOME/webapps/webapp/WEB-INF/web.xml
+	就近选择欢迎界面
+	
+15. HTTP状态码
+	HTTP状态码表示客户端HTTP请求的返回结果、标记服务器端的处理是否正常或者是出现的错误，
+	能够根据返回的状态码判断请求是否得到正确的处理
+	
+		1xx			Informational（信息性状态码）			接受的请求正在处理
+		2xx			Success（成功状态码）					请求正常处理完毕
+		3xx			Redirection（重定向）					需要进行附加操作以完成请求
+		4xx			Client error（客户端错误）				客户端请求出错，服务器无法处理请求
+		5xx			Server Error（服务器错误）				服务器处理请求出错
+
+16. 适配器
+	缺省适配器模式，代码优雅不臃肿
+	抽象类Adapter实现接口，并将后续用到的方法改写成抽象方法
+	具体实现类继承抽象类Adapter, 在具体实现相应的方法
+	设计模式：
+		-创建型：解决对象的创建问题
+		-行为型：与方法、行为、算法有关
+		-结构型：更多类，更多的对象组合成更大的结构解决某个特定的问题
+17. 具体的设计模式
+	-Gof95
+		* 单例模式
+		* 工厂模式
+		* 适配器模式
+		* 迭代模式（集合）
+		* 策略模式（集合）
+		* 装饰器模式（IO流）
+	-javaEE设计模式
+
+18. servlet对象改用适配器模式
+	javaweb程序员编写的主要的是service方法，其余方法一般不改写
+	故用适配器模式可以减少臃肿，是代码更加优雅
+	
+	例如 将适配器类中service方法写成抽象类
+	在具体类继承适配器类，来重写service
+	
+	若初始化需要执行一段程序， 可以在init方法中加一个无参的init方法来实现
+	这样子类重写init方法来实现此功能， 而不需要重写父类的init
+
+19. HTTP协议
+	超文本传输协议， W3C制定，浏览器和服务器按照http协议进行数据的传送和接受
+	包括 请求协议 响应协议
+	请求协议：
+		-请求行：请求方式 URI 协议版本号
+		-消息包头
+		-空白行：分离报头和请求体
+		-请求体
+		
+	相应协议：
+		-状态行：协议版本号 状态码 状态描述信息
+		-消息报头
+		-空白行： 分离报头和响应体
+		-响应体
+		
+		状态码：
+			200 OK
+			404 资源未找到
+			500 服务器端错误
+					
+	httpwatch监测http协议
+	
+20. GET POST
+	GET在请求行上提交数据 格式: URL?name=value&name=value...
+	会显示到浏览器地址栏上，有长度显示，只能提交字符串
+	最终结果会被浏览器缓存收纳
+	
+	POST比较安全，在请求体中提交数据，没有长度限制
+	可以提交文件、视频等，最终结果不会被浏览器收纳
+	
+	适合使用post的方式
+		-有敏感数据
+		-传送的数据不是字符串
+		-传送数据非常多
+		-为了修改服务器资源
+		
+	GET请求为为了从服务器中读取资源，这个资源短时间不会变化，故请求结果被浏览器缓存
+	POST请求是为了修改服务器端的资源，而每一次结果都是不同的，故请求结果没有必要被浏览器缓存
+
+21. http协议缓存解决方案
+	缓存之后，在此请求同一路径，将不会访问服务器，会直接显示缓存的资源
+	解决方案：
+	URL后加时间 例如http:localhost:8080/pri/index.html?timestamp=123323424342
+	
+22. 前端的请求方式应与后端要求的请求方式保持一致
+	在javaweb程序获取请求方式
+	http 的全部协议全部被封装在javax.servlet.http..HttpServletRequest
+	
+	在javaweb程序获取请求方式
+		-将ServletRequest 和 SercletResponse 强制转换成HttpServletRequest和HttpSercletResponse
+		-HttpServletRequest request = （HttpServletRequest）  req；
+		-HttpSercletResponse response = （HttpSercletResponse）  res；
+		String method = request.getMethod();
+	
+28.	编写一个Servlet类继承HttpServlet，请求是GET，重写doGet,请求是POST，重写doPost
+	HttpServlet{
+	doPost(报错)
+	doPost(报错)	
+	}
+	例如loginIn要求是GET请求
+	public class loginIn extends javax.javax.servlet.http..HttpServlet{
+	doGet{
+	相应操作
+	}
+	}
+	例如loginOut要求是POST请求
+	public class loginOut extends javax.javax.servlet.http..HttpServlet{
+	doPost{
+	相应操作
+	}
+	}
+	
+29. 模板方法设计方法
+	Servlet规范中的HttpServlet
+	HttpServlet是一个典型的模板方法设计模式
+	HttpServlet是一个模板类
+	其中的service（HttpServletRequest, HttpServletResponse）是一个典型的模板方法
+	在该方法中定义了核心算法骨架， doPost doGet...  具体的实现步骤延迟到子类中完成
+	
+	特点：
+	-doXXX
+	-doYYY
+	-doZZZ
+	
+	属于行为型设计模式
+	主要作用：
+		-核心算法得到保护
+		-核心算法得到复用
+		-在不改变算法的前提之下，却可以重新定义算法步骤的具体实现
+	
+31. HtppServletResquest
+	一个interface, extends ServletResquest
+	封装了请求协议的全部内容：
+		-请求方式
+		-URI
+		-协议版本号
+		-表单提交的数据
+		...
+	HtppServletResquest一般变量名叫做request, 表示请求
+	HtppServletResquest对象代表一次请求， 一次请求代表一个request对象，
+	request对象生命周期比较短暂
+
+32. HtppServletResquest常用方法
+		-getParameters()
+		-Map getParameterMap()
+		-Enumeration getParametersNames()
+		
+		表单中数据格式会被封装到request对象中，其中有一个map集合<String, String[]>，Post请求 数据格式：
+		username=admin&password=123&interest=sport&interest=swimming 
+		Map<String, String[]>
+		Key				Value		
+		-------------------------
+		username		{"admin"}
+		password		{"123"}
+		interest=	{"sport", "swimming"}
+		-------------------------
+		String  username = request.getParameters("username"); 
+		获取MAP集合中所有的Key
+		Enumeration<String> names = request.getParametersNames();
+		
+33. 	- String getContextPath() //获取上下文路径，webapp的根路径
+		- String getMethod() //获取浏览器的请求方式
+		- String getRequestURI() //获取URI
+		- StringBuffer getRequestURL() //获取URL
+		- String getServletPath() //获取Servlet PATH url-pattern
+		- String getRemoteAddr() //获取客户端IP地址
+		
+34. ServletContext是Servlet上下文对象，改接口中也有几个方法
+		- void setAttribute(String name, Object o) //向ServletContext范围内添加数据
+		- Object getAttribute(String name) //向ServletContext范围内读取数据
+		- void removeAttritube(String name) //移除ServletContext范围中的数据
+	
+	ServletContext是一个怎样的范围？
+		所有用户共享的一个范围对象，一般把ServletContext变量命名为：application
+		可见这个对象代表一个应用， 一个webapp只有一个这样的对象，范围极大。
+		
+	HttpServletRequest是一个怎样的范围？
+		HttpServletRequest类型的变量通常命名为：request，代表当前的本次请求
+		一次请求对应一个request对象，100个请求对应100个请求对象
+		请求范围是极小的，request只能完成一次请求中传递数据
+
+35. 将AServlet和BServlet执行放到同一个请求当中
+		必须使用转发技术
+		forward (转发)
+		// 1. 获取请求转发器对象 (以下转发器指向BServlet)
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/b");
+		// 2. 调用请求转发器的forward方法即可完成转发
+		dispatcher.forward(request, response);
+		
+		//转发
+		request.getRequestDispatcher("\b").forward(request, response);
+		
+36. 关于范围对象的选择
+		ServletContext 应用范围，可以跨用户传递数据
+		ServletRequest 请求范围，只能在同一个请求中传递数据
+		可以跨Servlet传递数据，但是多个Servlet必须在同一个请求中）
+		优先选择request范围
+		
+37. 
+	
+	
+	
+	
+		
+	
+	
+
+	
+	
+
+		
+		
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

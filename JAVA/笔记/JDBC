@@ -1,0 +1,73 @@
+JDBC笔记汇总
+
+1. JAVA Database Connectity
+	一套接口(interface)  多态 抽象机制  java.sql.*；
+	用于java程序连接数据库，实现数据库的CRUD
+
+	程序员面向JDBC接口写代码
+	sun公司编写JDBC一些类接口
+	数据库厂家负责编写JDBC接口的实现类，  数据库底层的实现原理即我们下载的jar文件 驱动
+	配置jar包环境变量 classpath . ; d:\sql\xxxx.jar 
+
+2. JDBC编程六步
+	第一步：注册驱动 			（告诉java程序，即将连接的数据库）
+	第二步：获取连接			（表示JVM的进程和数据库进程之间的通信打开，进程间的通信，使用后要关闭）
+	第三步：获取数据库操作对象	（专门执行sql语句的对象）
+	第四步：执行SQL语句			（DQL DML）
+	第五步：处理查询结果集		（第四步执行的select）
+	第六步：释放资源			（关闭资源，关闭进程之间的通信）
+	
+3. 使用资源绑定器绑定属性配置文件
+	新建配置文件 jdbc.properties	
+		//
+			driver=com.mysql.jdbc.Driver
+			url=jdbc:mysql://localhost:3306/bjpowernode
+			user=root
+			password=333
+		//
+	
+	java代码读jdbc.properties文件
+		//
+			ResourceBundle bundle = ResourceBundle.getBundle("jdbc.properties");
+			String driver = bundle.getString("driver");		//最好从文件中拷贝
+			String url = bundle.getString("url");
+			String user = bundle.getString("user");
+			String password = bundle.getString("password");
+			
+			Class.forName(driver);
+			conn = DriverManager.getConnection(url,user,password);
+			stmt = conn.createStatement();
+		//
+		
+4. 写代码时尽量将方法抽象化，不要都写到main里面
+	sql注入  例如密码中 fdsa or '1'='1' 密码中参与了编译 导致登陆成功
+	可使用preparedStatement 代替Statement  预编译框架 是密码中的关键字不参与编译不起作用
+	String sql = "select * from t_user where loginName = ? and logiPwd = ? ";
+	prepareStatement 比 Statement 效率高  prepareStatement在编译阶段会做类型的安全检查 string int  
+	prepareStatement只编译一次 Statement 只要sql语句不一样就会编译
+	prepareStatement使用较多 要求sql语句拼接需要用statement	例如 按价格升降展示商品
+	
+5.　JDBC中的事务机制
+	每执行一条DML语句，事务自动提交
+	conn.setAutoCommit(false);	//开启手动提交事务
+	conn.rollback();	//回滚事务
+	coon.commit();	//手动提交事务
+	
+6.	JDBC工具类的封装
+	工具类的构造方法一般都是私有，不要要new对象，直接调用类名
+	static代码块只执行一次
+	
+７.	模糊查询
+	String sql = "select ename from emp where ename like '_?%'"; 错误
+	应该写成
+	String sql = "select ename from emp where ename like ?"; 
+	rs.setString(parameterindex:1,x:"_A%"); //第二个字母含有A
+	
+8. 悲观锁 乐观锁
+	select * from　emp where job= 'manager' for update;
+	for updata 将 job= 'manager' 的记录锁住 其他事务无法更改
+	悲观锁：事务必须排队，数据锁住，不允许并发（for update;）
+	乐观锁：支持并发，事务不需要排队，只不过是版本号， 发现版本号不一致 回滚事务
+	
+	
+	
