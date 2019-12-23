@@ -1,0 +1,55 @@
+常用网站介绍
+GitHub		//代码托管学习
+HOW2J		//基础学习，面试知识点
+TLCL		//Linux命令行
+LeetCode	//算法刷题
+正则表达式测试：PHP, PCRE, Python, Golang and JavaScript
+
+// Java开发介绍  
+javaSE		//基础知识
+javaEE		//客户端企业级应用
+
+// JavaWeb
+前端HTML、CCS、JS、JSP不看
+Servlet 
+MySQL
+JDBC
+
+//开发必备框架
+SSH框架
+SSH之JDK动态代理：av14746486
+SSH之CGLIB代理：av14756990
+SSH之log4j：av14746638
+SSH之Struts2：av14754017
+SSH之Spring4：av15619432
+SSH之Hibernate：av47556370
+
+SSM框架
+SSM之Adapter设计模式：av15619215
+SSM之SpringMVC：av15619362
+SSM之Spring4：av47973173
+SSM之My Batis：av15619610
+SSM框架整合：av15619862
+
+//Java开发必备前沿技术
+Springboot：av61409864
+Spring cloud：av61409284
+Linux：av16779777
+Dubbo：av16942397
+Maven：av16842750
+SVN：av16011672
+Redis：av16841549
+Nginx：av48064496
+
+//要看书籍
+计算机操作系统	
+计算机网络
+
+数据结构
+算法导论
+
+Java编程思想
+Java核心技术卷I,II
+Effective Java
+
+	

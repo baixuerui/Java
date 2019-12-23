@@ -39,6 +39,7 @@ Mybatis系列教材 （一）- 基础 - 入门教程 - how2j.cn
 学习一门动态语言，动态语言开发起来更灵活迅速。同时比较动态静态语言的特点，可以更好去提炼跳出语言束缚的代码思想。推荐学习JavaScript或者Python等。
 大数据，大数据开发近几年也是热门方向之一，有兴趣的同学可以学习。
 热门工具及框架，包括分布式Dubbo、缓存优化redis、nginx、虚拟化技术docker等。一般来说本科应届生不会要求很高，但是要对热门技术有一定的了解。
+
 常用网站推荐
 GitHub： Build software better, together
 Java学习：How2J 的 Java教程
