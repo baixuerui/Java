@@ -346,8 +346,42 @@ E:\tomcat7\lib\servlet-api.jar
 		可以跨Servlet传递数据，但是多个Servlet必须在同一个请求中）
 		优先选择request范围
 		
-37. 
+37. 项目中出现的中文乱码问题
+		* 数据传递过程中的乱码
+		* 数据展示过程中的乱码
+		* 数据保存过程中的乱码
+		
+	保存
+		1）保存的数据就是乱码
+		2）数据库不支持简体中文
+		
+	展示
+		1）网页上数据出现乱码
+		解决方法,设置响应的内容类型，以及对应的字符编码方式
+		response.setContentType("text/html; charset = UTF-8");
+		2) 没有经过java程序，直接访问html页面出现中文乱码
+			<meta content = "text/html; charset = UTF-8">
 	
+	传递
+		1）数据从浏览器发送到服务器，服务器接收到乱码
+			*万能方式，解决POST Get方式
+			服务器接收的数据采用ISO- 解码 ，在编码成响应的中文形式
+			byte[] bytes = dname.getBytes("ISO-8859-1"); //解码
+			dname = new String(bytes, "UTF-8"); //编码 ，需要和浏览器编码方式一致
+			
+			*只支持POST请求， 因为只对请求体编码
+			request.setCharacterEncoding("UTF-8");
+			String dname = request.getparameter("dname");
+			以上代码必须在从request中获取任何数据之前设置有效
+			
+			*专门解决GET请求的乱码问题，只对请求行编码
+			修改CATALINA_HOME/conf/servlet.xml文件
+			在8080端口下添加
+			URIEncoding="UTF-8"
+			
+			
+			
+		* 数据传递过程中的乱码
 	
 	
 	
